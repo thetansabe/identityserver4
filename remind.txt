@@ -1,0 +1,15 @@
+Notices:
+- Phai dung .net 6
+- Phai config https de cookie an toan
+
+curl -k -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "Cache-Control: no-cache" -d 'client_id=m2m.client&scope=weatherapi.read&client_secret=SuperSecretPassword&grant_type=client_credentials' "https://localhost:5443/connect/token"
+
+curl -k -X Get -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IkEwNzZCMTE2REE4NThBQzY2NTJERTk3QzM0MDYxOTM1IiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2ODU0MjUwNDEsImV4cCI6MTY4NTQyODY0MSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTQ0MyIsImF1ZCI6IndlYXRoZXJhcGkiLCJjbGllbnRfaWQiOiJtMm0uY2xpZW50IiwianRpIjoiMkI5OEEwMEMyNTU3MTEwQkQwM0YzQjZCRTBEQUUyNUQiLCJpYXQiOjE2ODU0MjUwNDEsInNjb3BlIjpbIndlYXRoZXJhcGkucmVhZCJdfQ.sKJNHIDGMxkTmN2A2cAdCa4VqOrN8zlUEWhDwOJpu5hp4NhJpg6zYXKtzjtOXILyUcNafTXG5JVfxqlNmFXSVYbbJAIo3dk5XHiltf0PImjt_vkJhsZJgp8XsTtndXFOZBlT6VK0n-R00FER3g92cNVk4GlDxyop_AtAgdfa3m28VlomJk8L_7LGJXpdXiGywUMC69m_BHANj1TLq8HfL1ag0CtpTofQ_S3tLjiKo2KuON2Agvjqf0QyKRr2tZ7A-dbU-AWUnzAf_-pOMSTU4-upATP5sVhLJQtNh3F8sNhXGacoMrRuzGJE6PNIHl67Km0PHGxrzs88bty9mcHhlg" -H "Cache-control: no-cache" "https://localhost:5445/weatherforecast"
+
+dotnet ef migrations add init -c PersistedGrantDbContext
+dotnet ef database update -c ConfigurationDbContext
+
+dotnet run bin/Debug/net6.0/ids /seed
+
+alice
+Pass123$
