@@ -1,0 +1,49 @@
+﻿@model List<IdentityServerHost.Quickstart.UI.ClientViewModel>
+@{
+    <h1>All clients from database</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Client Id</th>
+                <th scope="col">Client Name</th>
+                <th scope="col">Redirect Uris</th>
+                <th scope="col">Post Logout Redirect Uris</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null){
+                @foreach (var client in Model)
+                {
+                    <tr>
+                        <th scope="row">@client.Id</th>
+                        <td>@client.ClientId</td>
+
+                        @if (@client.ClientName != null)
+                        {
+                            <td>@client?.ClientName</td>
+                        }
+                        else
+                        {
+                            <td>null</td>
+                        }
+                        
+
+                        @if(client.RedirectUris.Count() > 0)
+                        {
+                            <td>@client.RedirectUris[0].RedirectUri</td>
+                        }else{
+                            <td>null</td>
+                        }
+                        
+                        <td>
+                            <button type="button" class="btn btn-primary">Regen client secret</button>
+                        </td>
+                    </tr>
+                }
+            }
+            
+        </tbody>
+    </table>
+}
