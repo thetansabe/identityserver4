@@ -15,6 +15,8 @@ using Microsoft.EntityFrameworkCore;
 using IdentityServer4.EntityFramework.Entities;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace IdentityServerHost.Quickstart.UI
 {
@@ -34,6 +36,8 @@ namespace IdentityServerHost.Quickstart.UI
         {
             var clients = await _configDbContext.Clients
                                 .Include(c => c.RedirectUris)
+                                .Include(c => c.PostLogoutRedirectUris)
+                                .Include(c => c.ClientSecrets)
                                 .ToListAsync();
 
             var jsonOptions = new JsonSerializerOptions
@@ -49,10 +53,54 @@ namespace IdentityServerHost.Quickstart.UI
             var json = JsonSerializer.Serialize(clients, jsonOptions);
 
             var viewModels = JsonSerializer.Deserialize<List<ClientViewModel>>(json, jsonOptions);
-
-            //return Ok(json);
+            //return viewModels;
             return View("Client", viewModels);
+            //return Ok(json);
         }
+
+        public static string GenerateRandomString(int length)
+        {
+            const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            StringBuilder sb = new StringBuilder();
+
+            using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
+            {
+                byte[] randomBytes = new byte[length];
+                rng.GetBytes(randomBytes);
+
+                for (int i = 0; i < length; i++)
+                {
+                    int index = randomBytes[i] % validChars.Length;
+                    sb.Append(validChars[index]);
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        [HttpGet]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegenSecret(string Id)
+        {
+            var client = await _configDbContext.Clients.FirstOrDefaultAsync(c => c.Id == int.Parse(Id));
+
+            if (client != null)
+            {
+                //// Generate a new client secret
+                //string newSecret = GenerateRandomString(44);
+
+                //// Update the client secret in the database
+                //client.ClientSecrets[0].Value = newSecret;
+                //await _configDbContext.SaveChangesAsync();
+
+                // Optionally, you can perform any additional logic or return a success message
+                return RedirectToAction("Client", "GetAll");
+            }
+
+            // Handle the case where the client is not found
+            return NotFound();
+        }
+
 
     }
 }

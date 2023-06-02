@@ -1,3 +1,4 @@
+====================== Create dummy project
 Notices:
 - Phai dung .net 6
 - Phai config https de cookie an toan
@@ -13,3 +14,63 @@ dotnet run bin/Debug/net6.0/ids /seed
 
 alice
 Pass123$
+
+
+========================== Interact with dummy project
+Handle lazy load fields and JSON cycle detected:
+var clients = await _configDbContext.Clients
+                                .Include(c => c.RedirectUris)
+                                .ToListAsync();
+
+            var jsonOptions = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+                IgnoreNullValues = true,
+                Converters =
+                    {
+                        new JsonStringEnumConverter()
+                    }
+            };
+
+            var json = JsonSerializer.Serialize(clients, jsonOptions);
+
+            var viewModels = JsonSerializer.Deserialize<List<ClientViewModel>>(json, jsonOptions);
+
+[
+{
+id: 1,
+enabled: true,
+clientId: "m2m.client",
+clientName: "Client Credentials Client",
+redirectUris: [ ],
+postLogoutRedirectUris: [ ],
+clientSecrets: [
+{
+value: "jKGHySpqOJJzXKn9zFr5H09CPujNpVAVgZLP5CGSRq0=",
+type: "SharedSecret"
+}
+]
+},
+{
+id: 2,
+enabled: true,
+clientId: "interactive",
+clientName: null,
+redirectUris: [
+{
+redirectUri: "https://localhost:5444/signin-oidc"
+}
+],
+postLogoutRedirectUris: [
+{
+postLogoutRedirectUri: "https://localhost:5444/signout-callback-oidc"
+}
+],
+clientSecrets: [
+{
+value: "jKGHySpqOJJzXKn9zFr5H09CPujNpVAVgZLP5CGSRq0=",
+type: "SharedSecret"
+}
+]
+}
+]

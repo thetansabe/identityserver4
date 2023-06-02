@@ -16,10 +16,24 @@
         //public bool RequireRequestObject { get; set; }
         //public bool AllowAccessTokensViaBrowser { get; set; }
         public List<RedirectUriViewModel> RedirectUris { get; set; }
+        public List<PostLogoutRedirectUriViewModel> PostLogoutRedirectUris { get; set; }
+
+        public List<ClientSecretViewModel> ClientSecrets { get; set; }
     }
 
     public class RedirectUriViewModel
     {
         public string RedirectUri { get; set; }
     }
+
+    public class PostLogoutRedirectUriViewModel
+    {
+        public string PostLogoutRedirectUri { get; set; }
+    }
+
+    public class ClientSecretViewModel
+    {
+        public string Value { get; set; }
+        public string Type { get; set; }
+    }   
 }
